@@ -135,7 +135,7 @@
                 return val;
             }
         },
-        number = function(n, maxDec, forcedDec, format) {
+        number = function(n, maxDec, forcedDec, format, locale) {
             if (!n && n !== 0) {
                 return '';
             }
@@ -169,6 +169,13 @@
             if (neg) {
                 ret = "-" + ret;
             }
+
+            if(locale && locale === 'EU') {
+                ret = ret.replaceAll('.', '¬');
+                ret = ret.replaceAll(',', '.');
+                ret = ret.replaceAll('¬', ',');
+            }
+
             return ret;
         },
         xyRadius = function(cx, cy, radius, degrees) {
@@ -807,7 +814,7 @@
                     });
 
 
-                    point.hoverContent = point.parentLabels + (point.l || '') + ': ' + number(point.v,'','',config.format || '');
+                    point.hoverContent = point.parentLabels + (point.l || '') + ': ' + number(point.v,'','',config.format || '',config.locale || '');
                     if(point.info.level === 1){
                         //point.hoverContent += ' (' + number(point.percent_series, 1, null, '%') + ')';
                     }
@@ -852,7 +859,7 @@
 
                         }
 
-                        point.hoverContent = point.parentLabels + (point.l || '') + ': ' + number(point.v, '', '', config.format || '');
+                        point.hoverContent = point.parentLabels + (point.l || '') + ': ' + number(point.v, '', '', config.format || '', config.locale || '');
 
                         point.hoverAnchor = {
                             node: point.dot
@@ -1117,7 +1124,7 @@
                                 lines.push(line);
 
                                 text = document.createElement('span');
-                                text.textContent = number(displayNum, 1, 0, config.format || '');
+                                text.textContent = number(displayNum, 1, 0, config.format || '', config.locale || '');
                                 text.className = cssPrefix + 'scaleText';
                                 text.style.top = setPerc;
                                 m.scale.appendChild(text);
