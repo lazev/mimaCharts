@@ -674,7 +674,6 @@
                             m.levels[this.info.level].longestLabel = point.l.length;
                         }
                     }
-                    console.log(point)
 
                     if (!point.info.lowestLevel) {
                         point.data.forEach(gatherInfo2, point);
